@@ -1,13 +1,28 @@
 #include"bookmember.h"
-
+/*FILE *fp=fopen("member.txt","w");
+fputs(pname,fp);
+fputs(pid,fp);
+fputs(psex,fp);
+fputs(page,fp);
+fclose(fp);*/ 
+void display();
 int main(){
+printf("도서관에 오신것을 환영합니다\n");
+printf("책의 정보를 불어오는 중입니다.\n");
+puts("");
+printf("우선관리자모드에 들어가 대이터를입력해주세요\n");
+puts("");
+puts("");
+while(1){
 int ipt=0;
 char pw[10]={"admin"};
 char a[10];
-printf("도서관에 오신것을 환영합니다\n");
-printf("책의 정보를 불어오는 중입니다.\n");
-printf("관리자모드는 1번.\n");
-//printf("도서조회는 2번.\n");
+char b[10]; 
+
+
+printf("관리자모드는 1번.---------주의!이전 대이터는 초기화됩니다\n");
+printf("회원조회는 2번.\n");
+printf("회원로그인은 3번.\n");
 scanf("%d",&ipt);
 switch(ipt){
 case 1: 
@@ -16,16 +31,51 @@ scanf("%s",a);
 if(strcmp(a,pw) == 0){printf("0");
 
 
+
 memberset();}else{
 
 puts("비밀번호 오류");
 break;}
 
 
-//case 2: 
+case 2:display();break;
+
+
+case 3:
+printf("ID를 입력하세요\n");
+scanf("%s",b);
+struct bookmember *p;
+        p=root;
+        p=p->m_next;
+
+        while(p!=0)   // 임이의 p노드를 이동시키면서 연결된 노드 전부 출력
+        {
+
+
+if(strcmp(b,p->ID) == 0){printf("성공1");break;
+/*아이디확*/}else{
+
+puts("비밀번호 오류");
+break;}
+
+
+ }
+        printf("\n");
+
+
+if(strcmp(b,p->ID) == 0){printf("성공2");break;
+/*아이디확*/}else{
+
+puts("비밀번호 오류");
+break;}
+
+
+
+;
+ 
 default :break;
 }
-
+}
 return 0;
 }
 
@@ -67,6 +117,8 @@ void add(char *pname, char *pid,char *psex,char *page) // 인자로 이름과 �
         strcpy(pnew->ID, pid);               // 새노드에 아이디 복사
         strcpy(pnew->sex, psex);       // 새노드에 이름복사
         strcpy(pnew->age, page);               // 새노드에 아이디 복사
+
+
 
         pnew->m_next=NULL;                    // 새노드다음은 끝을 의미하는 NULL 
         p->m_next=pnew;                          // 현제 끝을 가리키는 p노드 다음에 새노드 연결
@@ -141,16 +193,32 @@ void del()
 // 출력
 void display()
 {
-        struct bookmember *p;
+        
+struct bookmember *p;
         p=root;
         p=p->m_next;
 
         while(p!=0)   // 임이의 p노드를 이동시키면서 연결된 노드 전부 출력
         {
-                printf("\n이름: %s 아이디: %s\n성별:%s  \t나이:%s ", p->name, p->ID,p->sex,p->age);
+
+
+
+
+
+
+               printf("\n이름: %s 아이디: %s\n성별:%s  \t나이:%s ", p->name, p->ID,p->sex,p->age);
                 p=p->m_next;
-        }
+       
+
+
+
+
+
+
+ }
         printf("\n");
+
+
 }
 
  
@@ -201,8 +269,7 @@ void sort(char *pname, char *pid,char *psex,char *page)
  
 
 void memberset()
-{
-        // 변수
+{      // 변수
         int menu;   // 메뉴
         char name[15];  // 이름
         char ID[30];  // 번호
@@ -228,8 +295,15 @@ void memberset()
         	//회원모드에 ID랑 비번 입력란 만들기
 
         	//이거는 관리자모드에 들어갈 사항
-        	     printf("\n");
+        	   
+
+
+
+
+
+                printf("\n");
                 printf("--------------\n");
+                printf("사용할정보를 전부입력해주세요\n");
                 printf("-  1. 회원등록   -\n");
                 printf("-  2. 회원삭제   -\n");
                 printf("-  3. 회원검색   -\n");
@@ -240,7 +314,7 @@ void memberset()
                 printf("선택 : ");
                 scanf("%d", &menu);
 
-                if(menu==6){main();}
+                if(menu==6){break;}
                 switch(menu)
                 {
                        case 1:  // 삽입

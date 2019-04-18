@@ -16,7 +16,7 @@ typedef struct{
      char auther[100];
      char publisher[100];
      char genre[100];
-
+     char loan[10];
 }BOOK;
 
  
@@ -44,33 +44,33 @@ int main(void){
 
      //메뉴 선택
      while (1){
-          printf("***** Menu ***** \n");
-          printf("1. Insert \n");
-          printf("2. Delete \n");
-          printf("3. Search \n");
-          printf("4. Print All \n");
-          printf("5. Save and Exit \n");
+          printf("*****도서관리***** \n");
+          printf("1. 책등록 \n");
+          printf("2. 책삭제 \n");
+          printf("3. 검색 \n");
+          printf("4. 목록확인 \n");
+          printf("5. 저장 후 종료하기 \n");
 
-          printf("Choose the item: ");
+          printf("번호를 입력하세요: ");
           scanf("%d", &input);
 
  
  
 
           if (input == 1){
-               printf("\n[INSERT] \n");
+               printf("\n[책등록] \n");
                insert(BOOK, &books);
           }
           else if (input == 2){
-               printf("\n[Delete] \n");
+               printf("\n[책삭제] \n");
                deleted(BOOK, &books);
           }
           else if (input == 3){
-               printf("\n[Search] \n");
+               printf("\n[검색] \n");
                search(BOOK, &books);
           }
           else if (input == 4){
-               printf("\n[Print All] \n");
+               printf("\n[목록확인] \n");
                printAll(BOOK, &books);
           }
           else if (input == 5){
@@ -78,7 +78,7 @@ int main(void){
                return 0;
           }
           else
-               printf("\nError! ReTry! \n\n");
+               printf("\n잘못된 입력! \n\n");
          }
 
 return 0;
@@ -109,7 +109,7 @@ int saveFile(BOOK* ptr, int* num){
           //구조체 배열에 저장된 데이터를 파일에 저장
           //줄바꿈으로 구분하여 저장
           for (i = 0; i < *num; i++){
-               fprintf(fp, "%s %s %s", ptr[i].name, ptr[i].auther,ptr[i].publisher,ptr[i].genre);
+               fprintf(fp, "%s %s %s %s", ptr[i].name, ptr[i].auther,ptr[i].publisher,ptr[i].genre);
                fputc('\n', fp);
           }
 
@@ -120,16 +120,16 @@ int saveFile(BOOK* ptr, int* num){
           안내후 프로그램을 종료 */
           state = fclose(fp);
           if (state != 0){
-               printf("File Close Error!\n");
+               printf("파일 입력이 닫히지 않음!\n");
                return 1;
           }
-          printf("\n  Data Save \n");
+          printf("\n  입력한 값이 저장됩니다. \n");
           return 0;
      }
 
  
      else{
-          printf("\n  Exit \n");
+          printf("\n 종료됩니다. \n");
           return 0;
      }
 }
@@ -145,7 +145,7 @@ int openFile(BOOK* ptr, int* num){
  
 
      if (fp == NULL){
-          printf("File Open Error!\n");
+          printf("파일이 열리지 않습니다!\n");
           return 1;
      }
 
@@ -166,7 +166,7 @@ int openFile(BOOK* ptr, int* num){
      안내후 프로그램을 종료 */
      state = fclose(fp);
      if (state != 0){
-          printf("File Close Error!\n");
+         printf("파일 입력이 닫히지 않음!\n");
           return 1;
      }
 
@@ -190,11 +190,11 @@ void insert(BOOK* ptr, int* num){
           scanf("%s",ptr[*num].genre);
  
           (*num)++;
-          printf("  Data Inserted \n\n");
+          printf("  정보가 입력되었습니다.\n\n");
      }
      //유저 정보가 꽉 차면
      else
-          printf("  Data Full \n\n");
+          printf("  모든데이터가 차있습니다. 삭제해주세요 \n\n");
     }
 
  
@@ -208,7 +208,7 @@ int deleted(BOOK* ptr, int* num){
 
      //유저 정보가 한개라도 남아있으면
      if (*num > 0){
-          printf("Input Name: ");
+          printf("삭제할 책 제목을 입력해주세요: ");
           scanf("%s", name);
 
  
@@ -218,7 +218,7 @@ int deleted(BOOK* ptr, int* num){
                if (strcmp(name, ptr[i].name) == 0){
 
                     (*num)--;
-                    printf("  Data Deleted \n\n");
+                    printf("  책이 제거 되었습니다. \n\n");
 
                     //데이터가 가득 차지 않았다면
                     if (i != MAX_num - 1){
@@ -251,14 +251,14 @@ int deleted(BOOK* ptr, int* num){
                return 0;
                }
           }
-          printf("Not Found \n\n");
+          printf("발견되지 않았습니다. \n\n");
           return 0;
      }
 
 
      //저장된 유저 정보가 없다면
      else{
-          printf("  No Data \n\n");
+          printf("  그런 책은 없습니다. \n\n");
           return 0;
      }
 }
@@ -274,7 +274,7 @@ int search(BOOK* ptr, int* num){
 
      //저장된 데이터가 있다면
      if (*num > 0){
-          printf("Input Name: ");
+          printf("조회하실 책을 입력해주세요: ");
           scanf("%s", name);
 
  
@@ -286,19 +286,19 @@ int search(BOOK* ptr, int* num){
                //그러므로 ! 을 붙여 참으로 변경하여 실행
                if (!strcmp(name, ptr[i].name)){
 
-                    printf("책제목 : %3s", ptr[i].name);
+                    printf("책제목 : %3s\n", ptr[i].name);
                     printf("저자 : %3s\n", ptr[i].auther);
                     printf("출간사 : %3s\n", ptr[i].publisher);
                     printf("장르 : %3s\n", ptr[i].genre);
-                    printf("  Data Found \n\n");
+                    printf("  책이 발견됨 \n\n");
                     return 0;
                }
           }
-      printf("Not Found \n\n");
+      printf("발견되지 않았습니다. \n\n");
       return 0;
      }
      else{
-          printf("  No Data \n\n");
+         printf("  그런 책은 없습니다. \n\n");
           return 0;
      }
 }
@@ -319,11 +319,10 @@ void printAll(BOOK* ptr, int* num){
 
 
           }
-          printf("  Data Print \n\n");
+          printf("  모든 정보를 리스트로 불러왔습니다. \n\n");
      }
      else
-          printf("  No Data \n\n");
+          printf("  책장이 비어있습니다. \n\n");
 }
-
 
 
